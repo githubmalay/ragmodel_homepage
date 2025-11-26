@@ -1,10 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/4712/4712105.png">
+
     <title>Policy AI Chat — Fixed & Optimized</title>
 
     <!-- Bootstrap CSS + Icons -->
@@ -738,31 +739,41 @@
 
             const bubble = document.createElement('div');
             bubble.className = 'msg bot';
-            bubble.innerHTML = `<i class="bi bi-robot" style="margin-right:8px;color:var(--primary)"></i>`;
+            bubble.innerHTML =
+                `<i class="bi bi-robot" style="margin-right:8px;color:var(--primary)"></i>`;
             wrapper.appendChild(bubble);
             messagesEl.appendChild(wrapper);
 
-            // typewriter effect
             let i = 0;
             const speed = 18;
             const target = text || '⚠ Server returned empty.';
+
             function typeChar() {
                 if (i <= target.length) {
-                    bubble.innerHTML = `<i class="bi bi-robot" style="margin-right:8px;color:var(--primary)"></i>${escapeHtml(target.slice(0, i))}`;
+                    bubble.innerHTML =
+                        `<i class="bi bi-robot" style="margin-right:8px;color:var(--primary)"></i>` +
+                        escapeHtml(target.slice(0, i));
                     i++;
                     messagesEl.scrollTop = messagesEl.scrollHeight;
                     setTimeout(typeChar, speed);
                 } else {
-                    bubble.innerHTML = `<i class="bi bi-robot" style="margin-right:8px;color:var(--primary)"></i>${escapeHtml(target)}`;
-                    // actions
+                    // ⭐ Apply markdown AFTER typing finishes
+                    const rendered = marked.parse(target);
+                    bubble.innerHTML =
+                        `<i class="bi bi-robot" style="margin-right:8px;color:var(--primary)"></i>` +
+                        rendered;
+
+                    // Add actions (copy, regen)
                     const actions = document.createElement('div');
                     actions.className = 'message-actions';
-                    actions.appendChild(createActionBtn('bi-clipboard', 'Copy', () => navigator.clipboard?.writeText(target).catch(() => { })));
+                    actions.appendChild(createActionBtn('bi-clipboard', 'Copy', () => navigator.clipboard?.writeText(target)));
                     actions.appendChild(createActionBtn('bi-arrow-clockwise', 'Regenerate', () => regenerate(userMsg, wrapper)));
                     wrapper.appendChild(actions);
+
                     persistHtml();
                 }
             }
+
             typeChar();
             return wrapper;
         }
@@ -942,6 +953,8 @@
         init();
 
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 </body>
 
 </html>
