@@ -162,14 +162,12 @@
 
         /* main container sits AFTER overlay in DOM (so we can use sibling selector) */
         .main-container {
-    margin-left: var(--chat-w);
-    height: calc(100vh - 65px); /* subtract input bar height */
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    transition: margin-left .28s cubic-bezier(.4,0,.2,1);
-}
-
+            margin-left: var(--chat-w);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: margin-left .28s cubic-bezier(.4, 0, .2, 1);
+        }
 
         #sidebar.collapsed+#overlay+.main-container {
             margin-left: var(--sidebar-collapsed-w);
@@ -359,15 +357,14 @@
 
         /* ========= ChatGPT style input bar ========= */
 
-       .input-area {
-    position: sticky;
-    bottom: 0;
-    background: #ffffff;
-    padding: 14px;
-    z-index: 9999;
-    height: 65px; /* fixed height */
-}
-
+        .input-area {
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+            position: sticky;
+            bottom: 0;
+            z-index: 9999;
+        }
 
         .chatgpt-input-wrapper {
             display: flex;
